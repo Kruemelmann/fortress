@@ -9,10 +9,12 @@ import (
 )
 
 func main() {
-	mux := http.NewServeMux()
+	//setup fortress
+	fortress := fortress.New(fortress.BasicAuth).Configure("username", "passw0rd").Build()
 
+	mux := http.NewServeMux()
 	healthHandler := http.HandlerFunc(HealthCheckHandler)
-	mux.Handle("/health", fortress.AuthMiddleware(healthHandler))
+	mux.Handle("/health", fortress(healthHandler))
 
 	log.Println("starting server on localhost:8080")
 	log.Fatal(http.ListenAndServe("localhost:8080", mux))
