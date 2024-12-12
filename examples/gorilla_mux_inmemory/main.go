@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/kruemelmann/fortress"
+	_ "github.com/kruemelmann/fortress"
 )
 
 func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
