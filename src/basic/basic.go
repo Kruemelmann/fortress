@@ -3,13 +3,19 @@ package basic
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/kruemelmann/fortress/src/types"
 )
 
-type BasicAuth struct {
+type Config struct {
+	Username string
+	Password string
 }
 
+type BasicAuth struct{}
+
 // TODO
-func (ba *BasicAuth) Configure(username, password string) *BasicAuth {
+func (ba *BasicAuth) Configure(conf any) types.Fortress {
 	return ba
 }
 

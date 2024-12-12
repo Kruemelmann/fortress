@@ -7,11 +7,12 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/kruemelmann/fortress"
+	"github.com/kruemelmann/fortress/src/basic"
 )
 
 func main() {
 	//setup fortress
-	fortress := fortress.New(fortress.BasicAuth).Configure("username", "passw0rd").Build()
+	fortress := fortress.New(fortress.BasicAuth).Configure(basic.Config{Username: "username", Password: "password"}).Build()
 
 	r := mux.NewRouter()
 	r.HandleFunc("/health", HealthCheckHandler)
