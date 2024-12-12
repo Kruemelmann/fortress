@@ -6,8 +6,8 @@ import (
 )
 
 func AuthMiddleware(next http.Handler) http.Handler {
-	fmt.Println("HELLO FROM FORTRESS")
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("HELLO FROM FORTRESS")
 		next.ServeHTTP(w, r)
 	})
 }

@@ -5,17 +5,17 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
 	"github.com/kruemelmann/fortress"
 )
 
 func main() {
-	r := mux.NewRouter()
-	r.HandleFunc("/health", HealthCheckHandler)
-	r.Use(fortress.AuthMiddleware)
+	mux := http.NewServeMux()
+
+	healthHandler := http.HandlerFunc(HealthCheckHandler)
+	mux.Handle("/health", fortress.AuthMiddleware(healthHandler))
 
 	log.Println("starting server on localhost:8080")
-	log.Fatal(http.ListenAndServe("localhost:8080", r))
+	log.Fatal(http.ListenAndServe("localhost:8080", mux))
 }
 
 func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
