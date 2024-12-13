@@ -13,13 +13,13 @@ func main() {
 	//setup fortress
 	fortress := fortress.New(fortress.BasicAuth).Configure(basic.Config{Username: "username", Password: "password"}).Build()
 
-	mux := http.NewServeMux()
+	srv := http.NewServeMux()
 	healthHandler := http.HandlerFunc(HealthCheckHandler)
-	mux.Handle("/health", fortress(healthHandler))
-	//mux.Handle("/protected_route", fortress(healthHandler))
+	srv.Handle("/health", healthHandler)
+	srv.Handle("/protected", fortress(http.HandlerFunc(ProtectedHandler)))
 
 	log.Println("starting server on localhost:8080")
-	log.Fatal(http.ListenAndServe("localhost:8080", mux))
+	log.Fatal(http.ListenAndServe("localhost:8080", srv))
 }
 
 func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
