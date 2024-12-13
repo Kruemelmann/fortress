@@ -16,7 +16,9 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/health", HealthCheckHandler)
-	r.Use(fortress)
+
+	//protect single route using fortress
+	r.Handle("/protected", fortress(http.HandlerFunc(ProtectedHandler)))
 
 	log.Println("starting server on localhost:8080")
 	log.Fatal(http.ListenAndServe("localhost:8080", r))
@@ -24,4 +26,8 @@ func main() {
 
 func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, `{"alive": true}`)
+}
+
+func ProtectedHandler(w http.ResponseWriter, r *http.Request) {
+	io.WriteString(w, `this route is protected with fortress`)
 }
